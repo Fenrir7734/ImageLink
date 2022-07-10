@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS collection
     created_at  TIMESTAMP    NOT NULL,
     updated_at  TIMESTAMP    NOT NULL,
 
-    CONSTRAINT uq_url UNIQUE (url)
+    CONSTRAINT uq_collection_url UNIQUE (url)
 );
