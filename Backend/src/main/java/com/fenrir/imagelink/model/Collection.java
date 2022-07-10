@@ -34,7 +34,7 @@ public class Collection {
     @Column(nullable = false)
     private Long lifePeriod;
 
-    @Column(length = 256, nullable = false)
+    @Column(nullable = false, length = 254)
     private String title;
 
     @Column(length = 2048)
@@ -55,7 +55,7 @@ public class Collection {
             Long lifePeriod,
             String title,
             String description) {
-        
+
         this.url = url;
         this.secretKey = secretKey;
         this.hidden = hidden;
