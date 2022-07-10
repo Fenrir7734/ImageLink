@@ -47,4 +47,20 @@ public class Collection {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    public Collection(
+            String url,
+            String secretKey,
+            Boolean hidden,
+            Long lifePeriod,
+            String title,
+            String description) {
+        
+        this.url = url;
+        this.secretKey = secretKey;
+        this.hidden = hidden;
+        this.lifePeriod = lifePeriod;
+        this.title = title;
+        this.description = description;
+    }
 }
