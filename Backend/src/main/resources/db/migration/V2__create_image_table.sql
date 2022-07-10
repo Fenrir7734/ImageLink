@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS image
 (
-    id BIGSERIAL PRIMARY KEY,
+    id            BIGSERIAL    PRIMARY KEY,
     url           VARCHAR(8)   NOT NULL,
     original_url  TEXT         NOT NULL,
     title         VARCHAR(254) NOT NULL,
