@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS collection
 (
     id          BIGSERIAL PRIMARY KEY,
-    url         VARCHAR(8)   NOT NULL,
+    code         VARCHAR(8)   NOT NULL,
     secret_key  VARCHAR(32)  NOT NULL,
     hidden      BOOLEAN      NOT NULL,
     life_period BIGINT       NOT NULL,
@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS collection
     created_at  TIMESTAMP    NOT NULL,
     updated_at  TIMESTAMP    NOT NULL,
 
-    CONSTRAINT uq_collection_url UNIQUE (url)
+    CONSTRAINT uq_collection_url UNIQUE (code)
 );

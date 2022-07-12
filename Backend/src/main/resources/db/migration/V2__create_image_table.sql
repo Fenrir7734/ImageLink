@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS image
 (
     id            BIGSERIAL    PRIMARY KEY,
-    url           VARCHAR(8)   NOT NULL,
+    code           VARCHAR(8)   NOT NULL,
     original_url  TEXT         NOT NULL,
     title         VARCHAR(254) NOT NULL,
     description   VARCHAR(2048),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS image
     updated_at    TIMESTAMP    NOT NULL,
     collection_id BIGINT       NOT NULL,
 
-    CONSTRAINT uq_image_url UNIQUE (url),
+    CONSTRAINT uq_image_url UNIQUE (code),
 
     CONSTRAINT fk_image_collection
         FOREIGN KEY (collection_id)

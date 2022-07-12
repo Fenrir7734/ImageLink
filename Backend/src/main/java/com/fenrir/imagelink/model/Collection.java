@@ -23,7 +23,7 @@ public class Collection {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 8)
-    private String url;
+    private String code;
 
     @Column(nullable = false, length = 32)
     private String secretKey;
@@ -49,14 +49,14 @@ public class Collection {
     private LocalDateTime updatedAt;
 
     public Collection(
-            String url,
+            String code,
             String secretKey,
             Boolean hidden,
             Long lifePeriod,
             String title,
             String description) {
 
-        this.url = url;
+        this.code = code;
         this.secretKey = secretKey;
         this.hidden = hidden;
         this.lifePeriod = lifePeriod;

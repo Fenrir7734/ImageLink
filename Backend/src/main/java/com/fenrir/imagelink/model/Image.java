@@ -27,7 +27,7 @@ public class Image {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 8)
-    private String url;
+    private String code;
 
     @Column(nullable = false)
     private String originalUrl;
@@ -51,12 +51,12 @@ public class Image {
     private Collection collection;
 
     public Image(
-            String url,
+            String code,
             String title,
             String description,
             Collection collection) {
 
-        this.url = url;
+        this.code = code;
         this.title = title;
         this.description = description;
         this.collection = collection;
