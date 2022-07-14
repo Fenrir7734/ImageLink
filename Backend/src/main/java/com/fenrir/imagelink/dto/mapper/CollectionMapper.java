@@ -14,7 +14,6 @@ public interface CollectionMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "code", ignore = true)
-    @Mapping(target = "secretKey", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Collection fromDto(CollectionRequestDto collectionDto);

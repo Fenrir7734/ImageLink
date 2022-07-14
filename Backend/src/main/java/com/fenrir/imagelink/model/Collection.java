@@ -25,9 +25,6 @@ public class Collection {
     @Column(nullable = false, unique = true, length = 8)
     private String code;
 
-    @Column(nullable = false, length = 32)
-    private String secretKey;
-
     @Column(nullable = false)
     private Boolean hidden;
 
@@ -50,14 +47,12 @@ public class Collection {
 
     public Collection(
             String code,
-            String secretKey,
             Boolean hidden,
             Long lifePeriod,
             String title,
             String description) {
 
         this.code = code;
-        this.secretKey = secretKey;
         this.hidden = hidden;
         this.lifePeriod = lifePeriod;
         this.title = title;
