@@ -8,8 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface CollectionMapper {
-
-    @Mapping(target = "url", ignore = true)
     CollectionResponseDto toDto(Collection collection);
 
     @Mapping(target = "id", ignore = true)

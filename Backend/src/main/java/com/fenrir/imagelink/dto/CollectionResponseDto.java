@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 public class CollectionResponseDto {
-    private String url;
+    private String code;
     private Boolean hidden;
     private Long lifePeriod;
     private String title;
