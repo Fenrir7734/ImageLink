@@ -59,7 +59,9 @@ class ImageServiceTest {
         ImageResponseDto actualImageResponseDto = imageService.getImage(image.getCode());
 
         // Then
-        assertThat(actualImageResponseDto).isEqualTo(imageResponseDto);
+        assertThat(actualImageResponseDto)
+                .isNotNull()
+                .isEqualTo(imageResponseDto);
     }
 
     @Test
@@ -98,7 +100,9 @@ class ImageServiceTest {
         ImageResponseDto updatedImage = imageService.updateImage(image.getCode(), imageRequestDto);
 
         // Then
-        assertThat(updatedImage).isEqualTo(imageResponseDto);
+        assertThat(updatedImage)
+                .isNotNull()
+                .isEqualTo(imageResponseDto);
     }
 
     @Test
