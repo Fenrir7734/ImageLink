@@ -14,6 +14,8 @@ import com.fenrir.imagelink.repository.ImageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class CollectionService {
@@ -25,6 +27,11 @@ public class CollectionService {
 
     public CollectionResponseDto getCollection(String code) {
         return collectionMapper.toDto(getCollectionByCode(code));
+    }
+
+    public List<ImageResponseDto> getAllImagesByCollectionCode(String collectionCode) {
+        List<Image> images = imageRepository.findAllByCollectionCode(collectionCode);
+        return imageMapper.toDto(images);
     }
 
     public CollectionResponseDto saveCollection(CollectionRequestDto collectionToSave) {

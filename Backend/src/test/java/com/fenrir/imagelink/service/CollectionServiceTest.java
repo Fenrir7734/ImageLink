@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,7 +62,7 @@ class CollectionServiceTest {
         collectionRequestDto = new CollectionRequestDto(false, 10000L, "collection title", "collection description");
         collectionResponseDto = new CollectionResponseDto("FEDCBA", false, 10000L, "collection title", "collection description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
 
-        image = new Image(1L, "ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0), new Collection());
+        image = new Image(1L, "ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0), collection);
         imageRequestDto = new ImageRequestDto("url", "title", "description");
         imageResponseDto = new ImageResponseDto("ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
     }
@@ -93,6 +95,43 @@ class CollectionServiceTest {
         assertThatThrownBy(() -> collectionService.getCollection(code))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(String.format("Collection was not found for code = %s", code));
+    }
+
+    @Test
+    public void givenExistingCollectionCode_whenGetAllImagesByCollectionCode_thenReturnImageResponseDtoList() {
+        // Given
+        List<Image> images = List.of(image);
+        List<ImageResponseDto> imageResponseDtos = List.of(imageResponseDto);
+
+        given(imageRepository.findAllByCollectionCode(collection.getCode()))
+                .willReturn(images);
+        given(imageMapper.toDto(images))
+                .willReturn(imageResponseDtos);
+
+        // When
+        List<ImageResponseDto> actualImageResponseDtos = collectionService.getAllImagesByCollectionCode(collection.getCode());
+
+        // Then
+        assertThat(actualImageResponseDtos)
+                .isNotNull()
+                .isEqualTo(imageResponseDtos);
+    }
+
+    @Test
+    public void givenNoExistingCollectionCode_whenGetAllImagesByCollectionCode_thenReturnEmptyList() {
+        // Given
+        List<Image> images = Collections.emptyList();
+
+        given(imageRepository.findAllByCollectionCode(any()))
+                .willReturn(images);
+        given(imageMapper.toDto(images))
+                .willReturn(Collections.emptyList());
+
+        // When
+        List<ImageResponseDto> actualImageResponseDtos = collectionService.getAllImagesByCollectionCode("ABCDEF");
+
+        // Then
+        assertThat(actualImageResponseDtos).isEmpty();
     }
 
     @Test
