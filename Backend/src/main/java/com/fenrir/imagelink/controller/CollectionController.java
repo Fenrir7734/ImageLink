@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CollectionController {
 
     @PostMapping
     public ResponseEntity<CollectionResponseDto> saveCollection(
-            @RequestBody CollectionRequestDto collectionRequestDto,
+            @Valid @RequestBody CollectionRequestDto collectionRequestDto,
             UriComponentsBuilder builder) {
 
         CollectionResponseDto collectionResponseDto = collectionService.saveCollection(collectionRequestDto);
@@ -55,7 +56,7 @@ public class CollectionController {
     @PostMapping("/{collectionCode}")
     public ResponseEntity<ImageResponseDto> saveImage(
             @PathVariable("collectionCode") String collectionCode,
-            @RequestBody ImageRequestDto imageRequestDto,
+            @Valid @RequestBody ImageRequestDto imageRequestDto,
             UriComponentsBuilder builder) {
 
         ImageResponseDto imageResponseDto = collectionService.saveImage(collectionCode, imageRequestDto);
@@ -68,7 +69,7 @@ public class CollectionController {
     @PutMapping("/{code}")
     public ResponseEntity<CollectionResponseDto> updateCollection(
             @PathVariable("code") String code,
-            @RequestBody CollectionRequestDto collectionRequestDto) {
+            @Valid @RequestBody CollectionRequestDto collectionRequestDto) {
 
         return ResponseEntity.ok(collectionService.updateCollection(code, collectionRequestDto));
     }
