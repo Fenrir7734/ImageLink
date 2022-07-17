@@ -6,6 +6,7 @@ import com.fenrir.imagelink.dto.ImageRequestDto;
 import com.fenrir.imagelink.dto.ImageResponseDto;
 import com.fenrir.imagelink.dto.mapper.CollectionMapper;
 import com.fenrir.imagelink.dto.mapper.ImageMapper;
+import com.fenrir.imagelink.exception.CodeGenerationException;
 import com.fenrir.imagelink.exception.ResourceNotFoundException;
 import com.fenrir.imagelink.model.Collection;
 import com.fenrir.imagelink.model.Image;
@@ -15,10 +16,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 @AllArgsConstructor
 @Service
 public class CollectionService {
+    private final RandomStringService randomStringService;
+
     private final CollectionRepository collectionRepository;
     private final ImageRepository imageRepository;
 
@@ -36,6 +41,7 @@ public class CollectionService {
 
     public CollectionResponseDto saveCollection(CollectionRequestDto collectionToSave) {
         Collection collection = collectionMapper.fromDto(collectionToSave);
+        collection.setCode(generateCode(collectionRepository::existsByCode));
         collection = collectionRepository.save(collection);
         return collectionMapper.toDto(collection);
     }
@@ -43,6 +49,7 @@ public class CollectionService {
     public ImageResponseDto saveImage(String collectionCode, ImageRequestDto imageToSave) {
         Collection collection = getCollectionByCode(collectionCode);
         Image image = imageMapper.fromDto(imageToSave);
+        image.setCode(generateCode(imageRepository::existsByCode));
         image.setCollection(collection);
         image = imageRepository.save(image);
         return imageMapper.toDto(image);
@@ -60,6 +67,22 @@ public class CollectionService {
 
     public void deleteCollection(String code) {
         collectionRepository.delete(getCollectionByCode(code));
+    }
+
+    private String generateCode(Predicate<String> existsByCodePredicate) {
+        int count = 0;
+        String code;
+
+        do {
+            code = randomStringService.generate(6);
+            count++;
+        } while (existsByCodePredicate.test(code) && count < 10);
+
+        if (existsByCodePredicate.test(code)) {
+            throw new CodeGenerationException("Failed to generate code");
+        }
+
+        return code;
     }
 
     private Collection getCollectionByCode(String code) {

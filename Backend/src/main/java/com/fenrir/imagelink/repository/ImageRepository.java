@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Optional<Image> findByCode(String code);
     List<Image> findAllByCollectionCode(String code);
+    boolean existsByCode(String code);
 }

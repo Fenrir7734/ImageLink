@@ -6,6 +6,7 @@ import com.fenrir.imagelink.dto.ImageRequestDto;
 import com.fenrir.imagelink.dto.ImageResponseDto;
 import com.fenrir.imagelink.dto.mapper.CollectionMapper;
 import com.fenrir.imagelink.dto.mapper.ImageMapper;
+import com.fenrir.imagelink.exception.CodeGenerationException;
 import com.fenrir.imagelink.exception.ResourceNotFoundException;
 import com.fenrir.imagelink.model.Collection;
 import com.fenrir.imagelink.model.Image;
@@ -33,6 +34,8 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CollectionServiceTest {
+    @Mock
+    private RandomStringService randomStringService;
 
     @Mock
     private CollectionRepository collectionRepository;
@@ -139,6 +142,10 @@ class CollectionServiceTest {
         // Given
         given(collectionMapper.fromDto(collectionRequestDto))
                 .willReturn(collection);
+        given(randomStringService.generate(6))
+                .willReturn("FEDCBA");
+        given(collectionRepository.existsByCode("FEDCBA"))
+                .willReturn(false);
         given(collectionRepository.save(collection))
                 .willReturn(collection);
         given(collectionMapper.toDto(collection))
@@ -154,12 +161,32 @@ class CollectionServiceTest {
     }
 
     @Test
+    public void givenExistingCode_whenSaveCollection_thenThrowsException() {
+        // Given
+        given(collectionMapper.fromDto(collectionRequestDto))
+                .willReturn(collection);
+        given(randomStringService.generate(6))
+                .willReturn("FEDCBA");
+        given(collectionRepository.existsByCode(any()))
+                .willReturn(true);
+
+        // Then
+        assertThatThrownBy(() -> collectionService.saveCollection(collectionRequestDto))
+                .isInstanceOf(CodeGenerationException.class)
+                .hasMessage("Failed to generate code");
+    }
+
+    @Test
     public void givenImageRequestObject_whenSaveImage_thenReturnImageResponseDto() {
         // Given
         given(collectionRepository.findByCode(collection.getCode()))
                 .willReturn(Optional.of(collection));
         given(imageMapper.fromDto(imageRequestDto))
                 .willReturn(image);
+        given(randomStringService.generate(6))
+                .willReturn("ABCDEF");
+        given(imageRepository.existsByCode("ABCDEF"))
+                .willReturn(false);
         given(imageRepository.save(image))
                 .willReturn(image);
         given(imageMapper.toDto(image))
@@ -185,6 +212,24 @@ class CollectionServiceTest {
         assertThatThrownBy(() -> collectionService.getCollection(code))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(String.format("Collection was not found for code = %s", code));
+    }
+
+    @Test
+    public void givenExistingCode_whenSaveImage_thenThrowsException() {
+        // Given
+        given(collectionRepository.findByCode(collection.getCode()))
+                .willReturn(Optional.of(collection));
+        given(imageMapper.fromDto(imageRequestDto))
+                .willReturn(image);
+        given(randomStringService.generate(6))
+                .willReturn("ABCDEF");
+        given(imageRepository.existsByCode(any()))
+                .willReturn(true);
+
+        // Then
+        assertThatThrownBy(() -> collectionService.saveImage("FEDCBA", imageRequestDto))
+                .isInstanceOf(CodeGenerationException.class)
+                .hasMessage("Failed to generate code");
     }
 
     @Test
