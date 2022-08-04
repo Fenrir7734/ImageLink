@@ -39,7 +39,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/{code}")
-    public ResponseEntity<ImageResponseDto> deleteImageByCode(@PathVariable("code") String code) {
+    public ResponseEntity<Void> deleteImageByCode(@PathVariable("code") String code) {
         imageService.deleteImage(code);
         return ResponseEntity.noContent().build();
     }
