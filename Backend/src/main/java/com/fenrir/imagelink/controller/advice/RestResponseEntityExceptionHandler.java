@@ -22,7 +22,7 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler({ ResourceNotFoundException.class })
     public ResponseEntity<ErrorMessage> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),
                 ex.getMessage(),
                 request.getDescription(false)
