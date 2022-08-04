@@ -61,13 +61,59 @@ class CollectionServiceTest {
 
     @BeforeEach
     public void setup() {
-        collection = new Collection(1L, "FEDCBA", false, 10000L, "collection title", "collection description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
-        collectionRequestDto = new CollectionRequestDto(false, 10000L, "collection title", "collection description");
-        collectionResponseDto = new CollectionResponseDto("FEDCBA", false, 10000L, "collection title", "collection description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
+        collection = Collection.builder()
+                .id(1L)
+                .code("FEDCBA")
+                .hidden(false)
+                .lifePeriod(10000L)
+                .title("collection title")
+                .description("collection description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .build();
 
-        image = new Image(1L, "ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0), collection);
-        imageRequestDto = new ImageRequestDto("url", "title", "description");
-        imageResponseDto = new ImageResponseDto("ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
+        collectionRequestDto = CollectionRequestDto.builder()
+                .hidden(false)
+                .lifePeriod(10000L)
+                .title("collection title")
+                .description("collection description")
+                .build();
+
+        collectionResponseDto = CollectionResponseDto.builder()
+                .code("FEDCBA")
+                .hidden(false)
+                .lifePeriod(10000L)
+                .title("collection title")
+                .description("collection description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .build();
+
+        image = Image.builder()
+                .id(1L)
+                .code("ABCDEF")
+                .originalUrl("url")
+                .title("title")
+                .description("description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .collection(collection)
+                .build();
+
+        imageRequestDto = ImageRequestDto.builder()
+                .originalUrl("url")
+                .title("title")
+                .description("description")
+                .build();
+
+        imageResponseDto = ImageResponseDto.builder()
+                .code("ABCDEF")
+                .originalUrl("url")
+                .title("title")
+                .description("description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .build();
     }
 
     @Test

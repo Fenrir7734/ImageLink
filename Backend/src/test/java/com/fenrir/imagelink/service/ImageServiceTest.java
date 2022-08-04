@@ -42,9 +42,31 @@ class ImageServiceTest {
 
     @BeforeEach
     public void setup() {
-        image = new Image(1L, "ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0), new Collection());
-        imageRequestDto = new ImageRequestDto("new_url", "new_title", "new_description");
-        imageResponseDto = new ImageResponseDto("ABCDEF", "url", "title", "description", LocalDateTime.of(2022, 1, 1, 12, 0), LocalDateTime.of(2022, 1, 1, 12, 0));
+        image = Image.builder()
+                .id(1L)
+                .code("ABCDEF")
+                .originalUrl("url")
+                .title("title")
+                .description("description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .collection(new Collection())
+                .build();
+
+        imageRequestDto = ImageRequestDto.builder()
+                .originalUrl("new_url")
+                .title("new_title")
+                .description("new_description")
+                .build();
+
+        imageResponseDto = ImageResponseDto.builder()
+                .code("ABCDEF")
+                .originalUrl("url")
+                .title("title")
+                .description("description")
+                .createdAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .updatedAt(LocalDateTime.of(2022, 1, 1, 12, 0))
+                .build();
     }
 
     @Test
