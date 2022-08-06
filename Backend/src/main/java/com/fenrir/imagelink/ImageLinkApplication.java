@@ -9,5 +9,4 @@ public class ImageLinkApplication {
     public static void main(String[] args) {
         SpringApplication.run(ImageLinkApplication.class, args);
     }
-
 }

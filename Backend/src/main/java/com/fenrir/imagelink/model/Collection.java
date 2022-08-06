@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Collection {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

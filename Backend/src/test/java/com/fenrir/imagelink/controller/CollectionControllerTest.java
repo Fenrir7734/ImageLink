@@ -1,6 +1,5 @@
 package com.fenrir.imagelink.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fenrir.imagelink.dto.CollectionRequestDto;
 import com.fenrir.imagelink.dto.CollectionResponseDto;

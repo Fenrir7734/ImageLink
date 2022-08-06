@@ -166,5 +166,4 @@ class ImageServiceTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage(String.format("Image was not found for code = %s", code));
     }
-
 }
