@@ -8,6 +8,8 @@ import com.fenrir.imagelink.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -15,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {
@@ -30,12 +33,24 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<ErrorMessage> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
-        List<ConstraintViolationInfo> constraintViolations = ex.getConstraintViolations()
-                .stream()
-                .map(ConstraintViolationInfo::from)
-                .toList();
+    @ExceptionHandler({ ConstraintViolationException.class, MethodArgumentNotValidException.class })
+    public ResponseEntity<ErrorMessage> handleConstraintViolationException(Exception ex, WebRequest request) {
+        List<ConstraintViolationInfo> constraintViolations = null;
+
+        if (ex instanceof ConstraintViolationException cve) {
+            constraintViolations = cve.getConstraintViolations()
+                    .stream()
+                    .map(ConstraintViolationInfo::from)
+                    .collect(Collectors.toList());
+        } else if (ex instanceof MethodArgumentNotValidException manve) {
+            constraintViolations = manve.getBindingResult()
+                    .getFieldErrors()
+                    .stream()
+                    .map(ConstraintViolationInfo::from)
+                    .toList();
+        } else {
+            handleUnknownException(ex, request);
+        }
 
         ErrorMessage message = new ConstraintViolationErrorMessage(
                 HttpStatus.CONFLICT.value(),
@@ -47,10 +62,21 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler({ HttpMessageNotReadableException.class })
+    public ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now(),
+                "Failed to read request body",
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler({ DataIntegrityViolationException.class })
     public ResponseEntity<ErrorMessage> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.CONTINUE.value(),
+                HttpStatus.CONFLICT.value(),
                 LocalDateTime.now(),
                 ex.getMostSpecificCause().getMessage(),
                 request.getDescription(false)
