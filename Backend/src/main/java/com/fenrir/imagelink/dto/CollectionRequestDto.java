@@ -22,9 +22,6 @@ import javax.validation.constraints.Size;
 public class CollectionRequestDto {
 
     @NotNull
-    private Boolean hidden;
-
-    @NotNull
     @Positive
     @Max(31622400000L)
     private Long lifePeriod;

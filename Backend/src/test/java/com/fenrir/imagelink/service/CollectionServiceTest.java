@@ -64,7 +64,6 @@ class CollectionServiceTest {
         collection = Collection.builder()
                 .id(1L)
                 .code("FEDCBA")
-                .hidden(false)
                 .lifePeriod(10000L)
                 .title("collection title")
                 .description("collection description")
@@ -73,7 +72,6 @@ class CollectionServiceTest {
                 .build();
 
         collectionRequestDto = CollectionRequestDto.builder()
-                .hidden(false)
                 .lifePeriod(10000L)
                 .title("collection title")
                 .description("collection description")
@@ -81,7 +79,6 @@ class CollectionServiceTest {
 
         collectionResponseDto = CollectionResponseDto.builder()
                 .code("FEDCBA")
-                .hidden(false)
                 .lifePeriod(10000L)
                 .title("collection title")
                 .description("collection description")
@@ -284,17 +281,14 @@ class CollectionServiceTest {
         given(collectionRepository.findByCode(collection.getCode()))
                 .willReturn(Optional.of(collection));
 
-        collectionRequestDto.setHidden(true);
         collectionRequestDto.setLifePeriod(200L);
         collectionRequestDto.setTitle("New title");
         collectionRequestDto.setDescription("New description");
 
-        collection.setHidden(collectionRequestDto.getHidden());
         collection.setLifePeriod(collectionRequestDto.getLifePeriod());
         collection.setTitle(collectionRequestDto.getTitle());
         collection.setDescription(collectionRequestDto.getDescription());
 
-        collectionResponseDto.setHidden(collectionRequestDto.getHidden());
         collectionResponseDto.setLifePeriod(collectionRequestDto.getLifePeriod());
         collectionResponseDto.setTitle(collectionRequestDto.getTitle());
         collectionResponseDto.setDescription(collectionRequestDto.getDescription());

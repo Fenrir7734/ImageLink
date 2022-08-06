@@ -52,7 +52,6 @@ class CollectionControllerTest {
         String collectionCode = "ABCDEF";
         CollectionResponseDto collectionResponseDto = CollectionResponseDto.builder()
                 .code(collectionCode)
-                .hidden(true)
                 .lifePeriod(10000L)
                 .title("title")
                 .description("description")
@@ -69,7 +68,6 @@ class CollectionControllerTest {
         response.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.code", is(collectionResponseDto.getCode())))
-                .andExpect(jsonPath("$.hidden", is(collectionResponseDto.getHidden())))
                 .andExpect(jsonPath("$.lifePeriod", is(collectionResponseDto.getLifePeriod().intValue())))
                 .andExpect(jsonPath("$.title", is(collectionResponseDto.getTitle())))
                 .andExpect(jsonPath("$.description", is(collectionResponseDto.getDescription())))
@@ -158,14 +156,12 @@ class CollectionControllerTest {
         // Given
         String collectionCode = "ABCDEF";
         CollectionRequestDto collectionRequestDto = CollectionRequestDto.builder()
-                .hidden(true)
                 .lifePeriod(10000L)
                 .title("title")
                 .description("description")
                 .build();
         CollectionResponseDto collectionResponseDto = CollectionResponseDto.builder()
                 .code(collectionCode)
-                .hidden(true)
                 .lifePeriod(1000L)
                 .title("title")
                 .description("description")
@@ -186,7 +182,6 @@ class CollectionControllerTest {
                 .andDo(print())
                 .andExpect(header().string("Location", endsWith(String.format("/api/v1/collections/%s", collectionCode))))
                 .andExpect(jsonPath("$.code", is(collectionResponseDto.getCode())))
-                .andExpect(jsonPath("$.hidden", is(collectionResponseDto.getHidden())))
                 .andExpect(jsonPath("$.lifePeriod", is(collectionResponseDto.getLifePeriod().intValue())))
                 .andExpect(jsonPath("$.title", is(collectionResponseDto.getTitle())))
                 .andExpect(jsonPath("$.description", is(collectionResponseDto.getDescription())))
@@ -266,14 +261,12 @@ class CollectionControllerTest {
         // Given
         String collectionCode = "ABCDEF";
         CollectionRequestDto collectionRequestDto = CollectionRequestDto.builder()
-                .hidden(true)
                 .lifePeriod(10000L)
                 .title("Updated title")
                 .description("Updated description")
                 .build();
         CollectionResponseDto collectionResponseDto = CollectionResponseDto.builder()
                 .code(collectionCode)
-                .hidden(true)
                 .lifePeriod(1000L)
                 .title("Updated title")
                 .description("Updated description")
@@ -293,7 +286,6 @@ class CollectionControllerTest {
         response.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.code", is(collectionResponseDto.getCode())))
-                .andExpect(jsonPath("$.hidden", is(collectionResponseDto.getHidden())))
                 .andExpect(jsonPath("$.lifePeriod", is(collectionResponseDto.getLifePeriod().intValue())))
                 .andExpect(jsonPath("$.title", is(collectionResponseDto.getTitle())))
                 .andExpect(jsonPath("$.description", is(collectionResponseDto.getDescription())))
@@ -306,7 +298,6 @@ class CollectionControllerTest {
         // Given
         String collectionCode = "ABCDEF";
         CollectionRequestDto collectionRequestDto = CollectionRequestDto.builder()
-                .hidden(true)
                 .lifePeriod(10000L)
                 .title("Updated title")
                 .description("Updated description")

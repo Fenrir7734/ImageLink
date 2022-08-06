@@ -56,7 +56,6 @@ public class CollectionService {
 
     public CollectionResponseDto updateCollection(String code, CollectionRequestDto updatedCollection) {
         Collection collectionToUpdate = getCollectionByCode(code);
-        collectionToUpdate.setHidden(updatedCollection.getHidden());
         collectionToUpdate.setLifePeriod(updatedCollection.getLifePeriod());
         collectionToUpdate.setTitle(updatedCollection.getTitle());
         collectionToUpdate.setDescription(updatedCollection.getDescription());
