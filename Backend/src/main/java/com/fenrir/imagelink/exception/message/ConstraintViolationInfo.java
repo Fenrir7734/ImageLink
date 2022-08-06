@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 
 import javax.validation.ConstraintViolation;
 
