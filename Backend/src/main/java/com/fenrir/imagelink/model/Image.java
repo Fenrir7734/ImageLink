@@ -54,16 +54,4 @@ public class Image {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection collection;
-
-    public Image(
-            String code,
-            String title,
-            String description,
-            Collection collection) {
-
-        this.code = code;
-        this.title = title;
-        this.description = description;
-        this.collection = collection;
-    }
 }

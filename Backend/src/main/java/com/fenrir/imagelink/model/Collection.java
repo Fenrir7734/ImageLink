@@ -46,16 +46,4 @@ public class Collection {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    public Collection(
-            String code,
-            Long lifePeriod,
-            String title,
-            String description) {
-
-        this.code = code;
-        this.lifePeriod = lifePeriod;
-        this.title = title;
-        this.description = description;
-    }
 }
