@@ -72,7 +72,7 @@ public class CollectionService {
         String code;
 
         do {
-            code = randomStringService.generate(6);
+            code = randomStringService.generate(11);
             count++;
         } while (existsByCodePredicate.test(code) && count < 10);
 

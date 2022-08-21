@@ -63,7 +63,7 @@ class CollectionServiceTest {
     public void setup() {
         collection = Collection.builder()
                 .id(1L)
-                .code("FEDCBA")
+                .code("12345678912")
                 .lifePeriod(10000L)
                 .title("collection title")
                 .description("collection description")
@@ -78,7 +78,7 @@ class CollectionServiceTest {
                 .build();
 
         collectionResponseDto = CollectionResponseDto.builder()
-                .code("FEDCBA")
+                .code("12345678912")
                 .lifePeriod(10000L)
                 .title("collection title")
                 .description("collection description")
@@ -88,7 +88,7 @@ class CollectionServiceTest {
 
         image = Image.builder()
                 .id(1L)
-                .code("ABCDEF")
+                .code("98765432198")
                 .originalUrl("url")
                 .title("title")
                 .description("description")
@@ -104,7 +104,7 @@ class CollectionServiceTest {
                 .build();
 
         imageResponseDto = ImageResponseDto.builder()
-                .code("ABCDEF")
+                .code("98765432198")
                 .originalUrl("url")
                 .title("title")
                 .description("description")
@@ -133,7 +133,7 @@ class CollectionServiceTest {
     @Test
     public void givenNoExistingCode_whenGetCollection_thenThrowsException() {
         // Given
-        String code = "ABCDEF";
+        String code = "12345678912";
         given(collectionRepository.findByCode(any()))
                 .willReturn(Optional.empty());
 
@@ -185,9 +185,9 @@ class CollectionServiceTest {
         // Given
         given(collectionMapper.fromDto(collectionRequestDto))
                 .willReturn(collection);
-        given(randomStringService.generate(6))
-                .willReturn("FEDCBA");
-        given(collectionRepository.existsByCode("FEDCBA"))
+        given(randomStringService.generate(11))
+                .willReturn("12345678912");
+        given(collectionRepository.existsByCode("12345678912"))
                 .willReturn(false);
         given(collectionRepository.save(collection))
                 .willReturn(collection);
@@ -208,8 +208,8 @@ class CollectionServiceTest {
         // Given
         given(collectionMapper.fromDto(collectionRequestDto))
                 .willReturn(collection);
-        given(randomStringService.generate(6))
-                .willReturn("FEDCBA");
+        given(randomStringService.generate(11))
+                .willReturn("12345678912");
         given(collectionRepository.existsByCode(any()))
                 .willReturn(true);
 
@@ -226,9 +226,9 @@ class CollectionServiceTest {
                 .willReturn(Optional.of(collection));
         given(imageMapper.fromDto(imageRequestDto))
                 .willReturn(image);
-        given(randomStringService.generate(6))
-                .willReturn("ABCDEF");
-        given(imageRepository.existsByCode("ABCDEF"))
+        given(randomStringService.generate(11))
+                .willReturn("98765432198");
+        given(imageRepository.existsByCode("98765432198"))
                 .willReturn(false);
         given(imageRepository.save(image))
                 .willReturn(image);
@@ -247,7 +247,7 @@ class CollectionServiceTest {
     @Test
     public void givenNoExistingCollectionCode_whenSaveImage_thenThrowsException() {
         // Given
-        String code = "ABCDEF";
+        String code = "12345678912";
         given(collectionRepository.findByCode(any()))
                 .willReturn(Optional.empty());
 
@@ -264,13 +264,13 @@ class CollectionServiceTest {
                 .willReturn(Optional.of(collection));
         given(imageMapper.fromDto(imageRequestDto))
                 .willReturn(image);
-        given(randomStringService.generate(6))
-                .willReturn("ABCDEF");
+        given(randomStringService.generate(11))
+                .willReturn("98765432198");
         given(imageRepository.existsByCode(any()))
                 .willReturn(true);
 
         // Then
-        assertThatThrownBy(() -> collectionService.saveImage("FEDCBA", imageRequestDto))
+        assertThatThrownBy(() -> collectionService.saveImage("12345678912", imageRequestDto))
                 .isInstanceOf(CodeGenerationException.class)
                 .hasMessage("Failed to generate code");
     }
@@ -310,7 +310,7 @@ class CollectionServiceTest {
     @Test
     public void givenNoExistingCode_whenUpdateCollection_thenThrowsException() {
         // Given
-        String code = "ABCDEF";
+        String code = "12345678912";
         given(collectionRepository.findByCode(any()))
                 .willReturn(Optional.empty());
 
@@ -337,7 +337,7 @@ class CollectionServiceTest {
     @Test
     public void givenNoExistingCode_whenDeleteCollection_thenNothing() {
         // Given
-        String code = "ABCDEF";
+        String code = "12345678912";
         given(collectionRepository.findByCode(any()))
                 .willReturn(Optional.empty());
 
