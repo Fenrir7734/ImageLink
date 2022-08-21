@@ -2,23 +2,22 @@ package com.fenrir.imagelink.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class RandomStringService {
-    private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
     public String generate(int length) {
-        if (length < 0) {
-            throw new IllegalArgumentException("length should be a positive integer");
+        if (length < 2) {
+            throw new IllegalArgumentException("Length should be greater then 1");
         }
 
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < length; i++) {
-            int index = ThreadLocalRandom.current().nextInt(alphabet.length);
-            builder.append(alphabet[index]);
-        }
-        return builder.toString();
+        int n = (length * 3) / 4;
+        byte[] arr = new byte[n];
+        ThreadLocalRandom.current().nextBytes(arr);
+        return Base64.getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(arr);
     }
 }

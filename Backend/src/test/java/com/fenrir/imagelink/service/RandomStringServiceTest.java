@@ -22,27 +22,28 @@ class RandomStringServiceTest {
     }
 
     @Test
-    public void givenLengthOfStringEqualToZero_whenGenerate_thenReturnEmptyString() {
+    public void givenLengthOfStringEqualToTwo_whenGenerate_thenReturnRandomString() {
         // Given
-        int length = 0;
+        int length = 2;
         RandomStringService randomStringService = new RandomStringService();
 
         // When
         String randomString = randomStringService.generate(length);
 
         // Then
-        assertThat(randomString).isEmpty();
+        assertThat(randomString).isNotNull();
+        assertThat(randomString.length()).isEqualTo(length);
     }
 
     @Test
-    public void givenNegativeLengthOfString_whenGenerate_thenThrowsException() {
+    public void givenLengthOfStringSmallerThenTwo_whenGenerate_thenThrowsException() {
         // Given
-        int length = -3;
+        int length = 1;
         RandomStringService randomStringService = new RandomStringService();
 
         // Then
         assertThatThrownBy(() -> randomStringService.generate(length))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("length should be a positive integer");
+                .hasMessage("Length should be greater then 1");
     }
 }
