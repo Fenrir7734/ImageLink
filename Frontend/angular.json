@@ -28,8 +28,13 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/sass"
+              ]
+            },
             "styles": [
-              "src/styles.css"
+              "src/sass/main.scss"
             ],
             "scripts": []
           },
